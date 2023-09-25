@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import scapy.all as scapy
+from scapy.all import ARP, Ether, srp, wrpcap
 import argparse
 
 def getArguments():
@@ -26,6 +27,22 @@ def printResult(resultsList):
     for client in resultsList:
         print(client["ip"] + "\t" + client["mac"])
 
+def savePCAP(clients, filename):
+    packets = []
+    for client in clients:
+        arp = ARP(pdst=client["ip"], hwdst=client["mac"])
+        ether = Ether(dst=client["mac"])
+        packet = ether / arp
+        packets.append(packet)
+
+    wrpcap(filename, packets)
+    print(f"Captured packets saved to {filename}")
+
 optIP = getArguments()
+
 scanResult = scan(optIP.target)
+
 printResult(scanResult)
+
+filename = input("Enter the filename to save the captured packets (e.g., networkScan.pcap): ")
+savePCAP(scanResult, filename)
