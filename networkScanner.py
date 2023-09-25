@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import scapy.all as scapy
-from scapy.all import ARP, Ether, srp, wrpcap
+from scapy.all import wrpcap
 import argparse
 
 def getArguments():
@@ -30,8 +30,8 @@ def printResult(resultsList):
 def savePCAP(clients, filename):
     packets = []
     for client in clients:
-        arp = ARP(pdst=client["ip"], hwdst=client["mac"])
-        ether = Ether(dst=client["mac"])
+        arp = scapy.ARP(pdst=client["ip"], hwdst=client["mac"])
+        ether = scapy.Ether(dst=client["mac"])
         packet = ether / arp
         packets.append(packet)
 
