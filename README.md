@@ -27,4 +27,4 @@ Options:
 
 ## Example
 ```
-sudo python3 networkScanner.py --target 10.0.2.1/24
+sudo python3 networkScanner.py --target IP_ADDRESS.1/24
